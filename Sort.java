@@ -6,21 +6,25 @@ public class Sort {
     arr[j]=temp;
   }
 ///////// select sort ///////////
-  public static void select(int[] arr){
-    for (int i=0;i<arr.length;i++){
-      int min=arr[i];
-      for (int j=i+1;j<arr.length;j++){
+public static void select(int[] arr){
+  select (arr,0,arr.length-1);
+}
+
+  public static void select(int[] arr,int first, int last){
+    for (int i=first;i<last;i++){
+      for (int j=i+1;j<=last;j++){
+        int min=arr[i];
         if (arr[j]<min) swap(arr,i,j);
       }
     }
   }
 ///////// insert sort ///////////
   public static void insert(int[] arr){
-    insert (arr,0,arr.length);
+    insert (arr,0,arr.length-1);
   }
   public static void insert(int[] arr, int first, int last){
-    for (int i=first+1;i<last;i++){
-      for(int j=i;j>0;j--){
+    for (int i=first+1;i<=last;i++){
+      for(int j=i;j>first;j--){
         if (arr[j]<arr[j-1]) swap (arr,j,j-1);
         else break;
       }
@@ -91,33 +95,26 @@ class Quick {
   public static void quickSort(int[] arr, int first, int last){
       if (first>=last) return;
       int mid=partition(arr, first, last);
-      // quickSort(arr,first,mid-1);
-      // quickSort(arr,mid+1,last);
-      if (mid-first<4) Sort.insert(arr,first,mid-1);
+      // quickSort(arr, first, mid-1);
+      // quickSort(arr, mid+1, last);
+
+      // if (mid-first<3) Sort.insert(arr,first,mid-1);
+      // else quickSort(arr, first, mid-1);
+      // if (last-mid<3) Sort.insert(arr,mid+1,last);
+      // else quickSort(arr, mid+1, last);
+      
+      if (mid-first<3) Sort.select(arr,first,mid-1);
       else quickSort(arr, first, mid-1);
-      if (last-mid<4) Sort.insert(arr,mid+1,last);
+      if (last-mid<3) Sort.select(arr,mid+1,last);
       else quickSort(arr, mid+1, last);
+
   }
   public static int partition(int[] arr, int left, int right){
-    // int mid = (left+right)/2;
-    // int[] temp={arr[left],arr[mid],arr[right]};
-    // Sort.insert(temp);
-    // int midValue=temp[1];
-    // int i=left,j=right;
-    // while(i<j){
-    //   while (arr[i]<midValue) i++;
-    //   while (arr[j]>=midValue) j--;
-    //   Sort.swap(arr,i,j);
-    // }
-    // int pivot=i;
-    // while (arr[i]!=midValue) i++;
-    // Sort.swap(arr,i,pivot);
-    // return pivot;
     int v=arr[left];
-    int i=left+1,j=right;
-    while (i<j){
-      while (arr[i]<v && i!=right) i++;
-      while (arr[j]>=v && j!=left) j--;
+    int i=left,j=right+1;
+    while(i<j){
+      while(arr[++i]<=v && i!=right) {}
+      while(arr[--j]>=v && j!=left) {}
       if (i<j) Sort.swap(arr,i,j);
     }
     Sort.swap(arr,j,left);
