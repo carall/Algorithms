@@ -102,22 +102,30 @@ class Quick {
       // else quickSort(arr, first, mid-1);
       // if (last-mid<3) Sort.insert(arr,mid+1,last);
       // else quickSort(arr, mid+1, last);
-      
-      if (mid-first<3) Sort.select(arr,first,mid-1);
-      else quickSort(arr, first, mid-1);
+
+////当使用三分法时，要用mid，不使用时使用mid+1,因为三分法不确定分割之后中间值在中间/////
+      if (mid-first<3) Sort.select(arr,first,mid);
+      else quickSort(arr, first, mid);
       if (last-mid<3) Sort.select(arr,mid+1,last);
       else quickSort(arr, mid+1, last);
 
   }
+
+  public static int midNumIndex(int[] arr, int left ,int right){
+    int[] arrTemp={arr[left],arr[(left+right)/2],arr[right]};
+    Sort.insert(arrTemp);
+    return arrTemp[1];
+    }
+
   public static int partition(int[] arr, int left, int right){
-    int v=arr[left];
-    int i=left,j=right+1;
+    int v=midNumIndex(arr,left,right);
+    int i=left-1,j=right+1;
     while(i<j){
-      while(arr[++i]<=v && i!=right) {}
-      while(arr[--j]>=v && j!=left) {}
+      while(arr[++i]<v && i!=right) {}
+      while(arr[--j]>v && j!=left) {}
       if (i<j) Sort.swap(arr,i,j);
     }
-    Sort.swap(arr,j,left);
+    // Sort.swap(arr,j,left);
     return j;
   }
 }
