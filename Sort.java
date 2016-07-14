@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Sort {
   public static void swap(int[] arr, int i, int j){
     if (i==j) return;
@@ -127,5 +129,46 @@ class Quick {
     }
     // Sort.swap(arr,j,left);
     return j;
+  }
+}
+
+/////Heap sort//////////
+class Heap{
+  public static <T extends Comparable<T>> void swap(T[] swapArray, int i, int j){
+    T temp=swapArray[i];
+    swapArray[i]=swapArray[j];
+    swapArray[j]=temp;
+  }
+  public static <T extends Comparable<T>> void sink(T[] sinkArray, int n, int total){
+    while (2*n<=total){
+      if (2*n==total) {
+        Heap.swap(sinkArray,n,2*n);
+        break;
+      }
+      if (sinkArray[n].compareTo(sinkArray[2*n])>0 && sinkArray[n].compareTo(sinkArray[2*n+1])>0) break;
+      if (sinkArray[2*n+1].compareTo(sinkArray[2*n])>0) {
+        Heap.swap(sinkArray,n,2*n+1);
+        n=2*n+1;
+      }
+      else {
+        Heap.swap(sinkArray,n,2*n);
+        n=2*n;
+      }
+    }
+  }
+  public static <T extends Comparable<T>> void heapSort(T[] array){
+    int N=array.length;
+    T[] binaryHeapArray = (T[]) new Comparable[N+1];
+    for (int i=1;i<=N;i++){
+      binaryHeapArray[i]=array[i-1];
+    }
+    for (int j=N/2;j>0;j--){
+      Heap.sink(binaryHeapArray,j,N);
+    }
+    for (int i=N-1;i>=0 && N>0;i--){
+      array[i]=binaryHeapArray[1];
+      binaryHeapArray[1]=binaryHeapArray[N--];
+      Heap.sink(binaryHeapArray,1,N);
+    }
   }
 }
