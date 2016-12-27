@@ -133,6 +133,7 @@ class Quick {
 }
 
 /////Heap sort//////////
+/*
 class Heap{
   public static <T extends Comparable<T>> void swap(T[] swapArray, int i, int j){
     T temp=swapArray[i];
@@ -172,3 +173,4 @@ class Heap{
     }
   }
 }
+*/
